@@ -4,6 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="styles.css" rel="stylesheet"/>
 <title>Multi-Level Assessment</title>
 </head>
@@ -1705,7 +1706,7 @@
 <input accept="image/*" id="image202" name="image202" type="file"/><div id="preview202"></div></div>
 <button onclick="submitAssessment(4)">Finish</button>
 </div>
-<script src="main.js"></script>
+
 <script>
 
 //new scripts because of the image upload option included, just pasted it to not disrupt the old code existing there//
@@ -1763,6 +1764,8 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
       });
   }
   
+
+</script>
 <script src="/main.js"></script>
-</script></body>
+</body>
 </html>

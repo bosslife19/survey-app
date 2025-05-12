@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Level 3 Safety Partnership Assessments</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -1381,6 +1382,67 @@
     </div>
 
 </div>
+<button onclick="nextLevel(3)">Go to Level 4</button>
     </div>
+    <script>
+
+        //new scripts because of the image upload option included, just pasted it to not disrupt the old code existing there//
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+          input.addEventListener('change', event => {
+              const previewDiv = document.getElementById('preview' + input.id.replace('image', ''));
+              previewDiv.innerHTML = '';
+              const file = event.target.files[0];
+              if (file && file.type.startsWith('image/')) {
+                  const img = document.createElement('img');
+                  img.src = URL.createObjectURL(file);
+                  img.style.maxWidth = '200px';
+                  img.style.marginTop = '10px';
+                  previewDiv.appendChild(img);
+              }
+          });
+        });
+        //end of the code//
+        
+          function nextLevel(level) {
+              const questions = document.querySelectorAll('.question');
+              const data = {
+                  level: level,
+                  responses: []
+              };
+          
+              questions.forEach((questionDiv) => {
+                  const label = questionDiv.querySelector('label').innerText.trim(); // Get the question text
+                  const selectedInput = questionDiv.querySelector('input[type="radio"]:checked');
+                  
+                  data.responses.push({
+                      question: label,
+                      answer: selectedInput ? selectedInput.value : null
+                  });
+              });
+          
+              fetch('/store', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                  },
+                  body: JSON.stringify(data)
+              })
+              .then(response => {
+                  if (!response.ok) throw new Error('Network response was not ok');
+                  return response.json();
+              })
+              .then(result => {
+                  console.log('Success:', result);
+                  // Optional: redirect, show success message, etc.
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+          }
+          
+        
+        </script>
+        <script src="/main.js"></script>
 </body>
 </html>

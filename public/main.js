@@ -46,7 +46,7 @@ function nextLevel(level) {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       },
       body: JSON.stringify(data)
   })
@@ -57,6 +57,16 @@ function nextLevel(level) {
   .then(result => {
       console.log('Success:', result);
       // Optional: redirect, show success message, etc.
+      if(level==1){
+window.location.href="/level-2"
+      }
+      if(level==2){
+        window.location.href="/level-3"
+      }
+      if(level==3){
+        window.location.href="/level-4"
+      }
+      
   })
   .catch(error => {
       console.error('Error:', error);

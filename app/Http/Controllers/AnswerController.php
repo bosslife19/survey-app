@@ -12,8 +12,19 @@ class AnswerController extends Controller
     public function firstLevel(){
         return view('Home.index');
     }
+    public function secondLevel(){
+        return view('Home.level2');
+    }
+    public function thirdLevel(){
+        return view('Home.level3');
+    }
 
-    public function store(Request $request)
+    public function fourthLevel(){
+        return view('Home.level4');
+    }
+
+
+    public function submit(Request $request)
     {
         $survey = Survey::create([
             'level' => $request->input('level'),
