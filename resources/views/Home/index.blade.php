@@ -1704,46 +1704,10 @@
         <label><input type="radio" name="q8" value="na"> N/A</label>
       </div>
     </div>
-    <button onclick="submitAssessment(4)">Finish</button>
+    <button onclick="nextLevel(4)">Finish</button>
   </div>
   <script>
-    function nextLevel(level) {
-        const questions = document.querySelectorAll('.question');
-        const data = {
-            level: level,
-            responses: []
-        };
-    
-        questions.forEach((questionDiv) => {
-            const label = questionDiv.querySelector('label').innerText.trim(); // Get the question text
-            const selectedInput = questionDiv.querySelector('input[type="radio"]:checked');
-            
-            data.responses.push({
-                question: label,
-                answer: selectedInput ? selectedInput.value : null
-            });
-        });
-    
-        fetch('/store', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
-        })
-        .then(result => {
-            console.log('Success:', result);
-            // Optional: redirect, show success message, etc.
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
+   
     </script>
     
   <script src="/main.js"></script>

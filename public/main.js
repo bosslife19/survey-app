@@ -1,5 +1,5 @@
 // Function to handle moving to the next level
-function nextLevel(level) {
+function nextLevels(level) {
   const current = document.getElementById('level' + level);
   const inputs = current.querySelectorAll('input[type="radio"]');
   const total = new Set();
@@ -24,6 +24,43 @@ function nextLevel(level) {
     updateProgress(4);
     alert("Assessment complete!");
   }
+}
+function nextLevel(level) {
+  const questions = document.querySelectorAll('.question');
+  const data = {
+      level: level,
+      responses: []
+  };
+
+  questions.forEach((questionDiv) => {
+      const label = questionDiv.querySelector('label').innerText.trim(); // Get the question text
+      const selectedInput = questionDiv.querySelector('input[type="radio"]:checked');
+      
+      data.responses.push({
+          question: label,
+          answer: selectedInput ? selectedInput.value : null
+      });
+  });
+
+  fetch('/store', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify(data)
+  })
+  .then(response => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+  })
+  .then(result => {
+      console.log('Success:', result);
+      // Optional: redirect, show success message, etc.
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
 }
 
 // Function to update the progress bar
